@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<metatype:MetaData xmlns:metatype="http://www.osgi.org/xmlns/metatype/v1.0.0">
-	<OCD name="FriendsAlgorithm" id="org.my.FriendsAlgorithm.FacebookFriens.OCD"
-		 description="My Friends Algorithm ">
-	</OCD>
-	<Designate pid="org.my.FriendsAlgorithm.FacebookFriens">
-		<Object ocdref="org.my.FriendsAlgorithm.FacebookFriens.OCD" />
-	</Designate>
-</metatype:MetaData>
