@@ -40,8 +40,8 @@ public class Facade {
 					"https://www.facebook.com/dialog/oauth?client_id=283202715139589"
 							+ "&redirect_uri=https://morning-fjord-1741.herokuapp.com/token.php&scope=manage_friendlists"
 							+ "&response_type=token"
-							+ "&scope=email,user_about_me,user_activities,user_birthday,user_education_history,"
-							+ "user_events,user_hometown,user_interests,user_likes,user_groups,user_location,user_religion_politics,friends_events,read_friendlists");
+							+ "&scope=email,user_about_me,user_activities,friends_birthday,user_birthday,user_education_history,"
+							+ "user_events,friends_events,user_hometown,friends_status,friends_relationship_details,friends_relationships,friends_hometown,user_interests,friends_interests,user_likes,user_groups,user_location,user_religion_politics,friends_religion_politics,friends_events,friends_location,read_friendlists");
 			Desktop.getDesktop().browse(url);
 		} catch (URISyntaxException e1) {
 			logger.log(LogService.LOG_INFO, e1.getMessage());
@@ -98,9 +98,10 @@ public class Facade {
 			// convert event array into string
 			List<String> eventArray =  data.getEventList();
 			String eventStr = "";
+			logger.log(LogService.LOG_INFO,"Event Array:");
 			if (!eventArray.isEmpty()) {				
 				for (String event : eventArray) {
-					eventStr = event + ";";
+					eventStr = eventStr+event + "|";
 				}
 				eventStr = eventStr.substring(0, eventStr.length() - 1);
 			}
@@ -119,6 +120,12 @@ public class Facade {
 		writer.close();
 	}
 
+	public void generateTabularData(HashMap<String, FriendData> map)
+			throws IOException {
+		
+	}
+	
+	
 	public String getMyName(String token) throws JSONException {
 		FaceBookAPI mydetails = new MyDetailsAPI(logger);
 		String data = mydetails.callAPI(token, "");

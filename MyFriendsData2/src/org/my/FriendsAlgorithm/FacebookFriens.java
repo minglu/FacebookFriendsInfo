@@ -102,7 +102,11 @@ public class FacebookFriens implements Algorithm {
 					JSONObject htObj =currentResult
 					.getJSONObject("hometown_location");
 					String name = htObj.getString("name");
-					String state = htObj.getString("state");
+					String state="";
+					if(!htObj.isNull("state"))
+					{
+					  state = htObj.getString("state");
+					}
 					String country = htObj.getString("country");
 					String zip = htObj.getString("zip");
 					String htid = ((Long)htObj.getLong("id")).toString();
@@ -112,13 +116,16 @@ public class FacebookFriens implements Algorithm {
 					//logger.log(LogService.LOG_INFO,"Hometown="+homeTown );
 				}
 				if (!currentResult.isNull("status")) {
-					fd.setStatus(currentResult.getString("status"));
+					JSONObject jsonObj = currentResult.getJSONObject("status");
+					String message =jsonObj.getString("message");
+					fd.setStatus(message);
 				}
 				if (!currentResult.isNull("interests")) {
-					fd.setInterest(currentResult.getString("interests"));
+					fd.setInterest(currentResult.getString("interests").replace(",", "|"));
 				}
 				if (!currentResult.isNull("birthday")) {
-					fd.setBirthday(currentResult.getString("birthday"));
+					 String birthday =currentResult.getString("birthday").replace(',', '.');
+					fd.setBirthday(birthday);
 				}
 				if (!currentResult.isNull("religion")) {
 					fd.setReligion(currentResult.getString("religion"));
@@ -154,9 +161,9 @@ public class FacebookFriens implements Algorithm {
 
 				FriendData fd = idDataList.get(uid.toString());
 				if(fd == null)continue;
-				fd.addEvent(eventIdToName.get(eid));
-			}             
-			
+				//logger.log(LogService.LOG_INFO,"Eventid ="+eventIdToName.get(eid));
+				fd.addEvent(eventIdToName.get(eid).replace("|", ","));
+			}             			
 			facade.writeCSVFile(idDataList);
 		} catch (JSONException e) {
 			logger.log(LogService.LOG_INFO, e.getMessage());
